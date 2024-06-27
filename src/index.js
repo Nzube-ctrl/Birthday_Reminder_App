@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 5000;
 const User = require("./models/user.model.js");
 const path = require("node:path");
 const registerValidator = require("./validator.js");
+const MONGO_URI = process.env.MONGO_URI;
 
 const app = express();
 
@@ -78,11 +79,8 @@ async function sendBirthdayEmails() {
 
 cron.schedule("0 7 * * *", sendBirthdayEmails);
 
-
 mongoose
-  .connect(
-    "mongodb+srv://nzubeuwakwe:9ABfDUaa6bUuLHYF@birthdaydb.wkrpv7w.mongodb.net/?retryWrites=true&w=majority&appName=BirthdayDb"
-  )
+  .connect(MONGO_URI)
   .then(() => {
     console.log("Connected to database");
     app.listen(PORT, () => {
